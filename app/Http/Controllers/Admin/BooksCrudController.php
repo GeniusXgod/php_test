@@ -26,9 +26,9 @@ class BooksCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Books::class);
+        CRUD::setModel(\App\Models\Book::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/books');
-        CRUD::setEntityNameStrings('books', 'books');
+        CRUD::setEntityNameStrings('книгу', 'книги');
     }
 
     /**
@@ -39,7 +39,7 @@ class BooksCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
+
         CRUD::column('name');
         CRUD::column('author');
 

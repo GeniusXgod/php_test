@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\AuthorsRequest;
-use App\Models\Authors;
+use App\Http\Requests\AuthorBookRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Routing\Route;
 
 /**
- * Class AuthorsCrudController
+ * Class AuthorBookCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class AuthorsCrudController extends CrudController
+class AuthorBookCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -28,14 +26,10 @@ class AuthorsCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Authors::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/authors');
-        CRUD::setEntityNameStrings('автора', 'авторы');
-
+        CRUD::setModel(\App\Models\AuthorBook::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/author_book', '/author', '/book');
+        CRUD::setEntityNameStrings('связь', 'связи');
     }
-
-
-
 
     /**
      * Define what happens when the List operation is loaded.
@@ -43,13 +37,20 @@ class AuthorsCrudController extends CrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
-
-
     protected function setupListOperation()
     {
 
-        CRUD::column('name');
+        CRUD::column('author_id');
+        CRUD::column('book_id');
 
+
+
+
+        /**
+         * Columns can be defined using the fluent syntax or array syntax:
+         * - CRUD::column('price')->type('number');
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         */
     }
 
     /**
@@ -60,12 +61,11 @@ class AuthorsCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(AuthorsRequest::class);
+        CRUD::setValidation(AuthorBookRequest::class);
 
         CRUD::field('id');
-        CRUD::field('name');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
+        CRUD::field('author_id');
+        CRUD::field('book_id');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
